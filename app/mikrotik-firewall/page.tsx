@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ToolLayout from '@/components/ToolLayout';
 import OutputBox from '@/components/OutputBox';
 import ExampleCard from '@/components/ExampleCard';
-import { generateFirewallRule, FirewallRule, MIKROTIK_TEMPLATES } from '@/lib/tools/mikrotik';
+import { generateFirewallRule, FirewallRule, MIKROTIK_RULES } from '@/lib/tools/mikrotik';
 import { Zap } from 'lucide-react';
 
 const FAQS = [
@@ -118,14 +118,15 @@ export default function MikrotikPage() {
             <div>
                 <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Security Rule Templates</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
-                    {MIKROTIK_TEMPLATES.map((tmpl) => (
+                    {MIKROTIK_RULES.map((tmpl) => (
                         <ExampleCard
                             key={tmpl.label}
                             title={tmpl.label}
                             description={tmpl.description}
                             expression={generateFirewallRule(tmpl.rule)}
                             language="routeros"
-                            toolHref="#"
+                            slug={`/mikrotik-firewall/${tmpl.slug}`}
+                            toolHref={`/mikrotik-firewall/${tmpl.slug}`}
                         />
                     ))}
                 </div>
