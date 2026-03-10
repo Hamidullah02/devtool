@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import ToolLayout from '@/components/ToolLayout';
 import InputBox from '@/components/InputBox';
 import { calculateSubnet, SubnetInfo } from '@/lib/tools/subnet';
+import { safeDecodeURI } from '@/lib/utils';
 import { Zap } from 'lucide-react';
 
 const FAQS = [
@@ -26,7 +27,7 @@ function ResultRow({ label, value, mono = false }: { label: string; value: strin
 function SubnetInner() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [input, setInput] = useState(searchParams.get('cidr') ? decodeURIComponent(searchParams.get('cidr')!) : '');
+    const [input, setInput] = useState(searchParams.get('cidr') ? safeDecodeURI(searchParams.get('cidr')!) : '');
     const [result, setResult] = useState<SubnetInfo | null>(null);
     const [error, setError] = useState('');
 

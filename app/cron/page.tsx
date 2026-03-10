@@ -8,6 +8,7 @@ import ExampleCard from '@/components/ExampleCard';
 import { buildCronExpression, explainCron, CRON_EXAMPLES } from '@/lib/tools/cron';
 import { Clock, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { safeDecodeURI } from '@/lib/utils';
 
 const FAQS = [
     { question: 'What is a cron expression?', answer: 'A cron expression is a 5-field string (minute hour day month weekday) used to schedule recurring tasks. Each field can be a number, wildcard, range, or step interval.' },
@@ -45,9 +46,9 @@ function CronInner() {
     useEffect(() => {
         const e = searchParams.get('expr');
         if (e) {
-            setRawExpr(decodeURIComponent(e));
+            setRawExpr(safeDecodeURI(e));
             setMode('raw');
-            setExplanation(explainCron(decodeURIComponent(e)));
+            setExplanation(explainCron(safeDecodeURI(e)));
         } else {
             updateExplanation(currentExpr);
         }

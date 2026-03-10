@@ -7,6 +7,7 @@ import InputBox from '@/components/InputBox';
 import OutputBox from '@/components/OutputBox';
 import { analyzeIPv6, IPv6Info } from '@/lib/tools/ipv6';
 import { Zap } from 'lucide-react';
+import { safeDecodeURI } from '@/lib/utils';
 
 const FAQS = [
     { question: 'What is :: in IPv6?', answer: ':: is a shorthand that replaces one or more consecutive groups of all-zero 16-bit blocks. It can only appear once in an address.' },
@@ -18,7 +19,7 @@ const FAQS = [
 function IPv6Inner() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [input, setInput] = useState(searchParams.get('addr') ? decodeURIComponent(searchParams.get('addr')!) : '');
+    const [input, setInput] = useState(searchParams.get('addr') ? safeDecodeURI(searchParams.get('addr')!) : '');
     const [result, setResult] = useState<IPv6Info | null>(null);
     const [error, setError] = useState('');
 

@@ -8,6 +8,7 @@ import OutputBox from '@/components/OutputBox';
 import ExampleCard from '@/components/ExampleCard';
 import { jsonToTypeScript } from '@/lib/tools/json-to-ts';
 import { Code2, Zap } from 'lucide-react';
+import { safeDecodeURI } from '@/lib/utils';
 
 const EXAMPLE_JSON = `{
   "id": 1,
@@ -39,7 +40,7 @@ const FAQS = [
 function JsonToTsInner() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [input, setInput] = useState(searchParams.get('json') ? decodeURIComponent(searchParams.get('json')!) : '');
+    const [input, setInput] = useState(searchParams.get('json') ? safeDecodeURI(searchParams.get('json')!) : '');
     const [output, setOutput] = useState('');
     const [error, setError] = useState('');
 
@@ -58,7 +59,7 @@ function JsonToTsInner() {
 
     useEffect(() => {
         const preloaded = searchParams.get('json');
-        if (preloaded) convert(decodeURIComponent(preloaded));
+        if (preloaded) convert(safeDecodeURI(preloaded));
     }, []);
 
     return (

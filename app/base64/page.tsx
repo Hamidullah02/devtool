@@ -7,6 +7,7 @@ import InputBox from '@/components/InputBox';
 import OutputBox from '@/components/OutputBox';
 import { base64Encode, base64Decode } from '@/lib/tools/base64';
 import { Zap, ArrowLeftRight } from 'lucide-react';
+import { safeDecodeURI } from '@/lib/utils';
 
 const FAQS = [
     { question: 'What is Base64?', answer: 'Base64 is an encoding scheme that converts binary data into ASCII text using 64 printable characters. It is widely used in email, data URIs, and API tokens.' },
@@ -18,7 +19,7 @@ const FAQS = [
 function Base64Inner() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [input, setInput] = useState(searchParams.get('text') ? decodeURIComponent(searchParams.get('text')!) : '');
+    const [input, setInput] = useState(searchParams.get('text') ? safeDecodeURI(searchParams.get('text')!) : '');
     const [output, setOutput] = useState('');
     const [urlSafe, setUrlSafe] = useState(false);
     const [error, setError] = useState('');

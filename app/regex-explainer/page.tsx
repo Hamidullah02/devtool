@@ -8,6 +8,7 @@ import ExampleCard from '@/components/ExampleCard';
 import { tokenizeRegex, REGEX_EXAMPLES, RegexToken } from '@/lib/tools/regex';
 import { Zap } from 'lucide-react';
 import Link from 'next/link';
+import { safeDecodeURI } from '@/lib/utils';
 
 const FAQS = [
     { question: 'What is a regex?', answer: 'A regular expression (regex) is a pattern used to match text. It is widely used in programming for validation, search-and-replace, and data extraction.' },
@@ -39,7 +40,7 @@ function TokenBadge({ token }: { token: RegexToken }) {
 function RegexInner() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [pattern, setPattern] = useState(searchParams.get('pattern') ? decodeURIComponent(searchParams.get('pattern')!) : '');
+    const [pattern, setPattern] = useState(searchParams.get('pattern') ? safeDecodeURI(searchParams.get('pattern')!) : '');
     const [tokens, setTokens] = useState<RegexToken[]>([]);
     const [testStr, setTestStr] = useState('');
     const [testResult, setTestResult] = useState<string | null>(null);
@@ -72,7 +73,7 @@ function RegexInner() {
 
     useEffect(() => {
         const p = searchParams.get('pattern');
-        if (p) analyze(decodeURIComponent(p));
+        if (p) analyze(safeDecodeURI(p));
     }, []);
 
     return (
