@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { CRON_EXAMPLES } from '@/lib/tools/cron';
 import { REGEX_EXAMPLES } from '@/lib/tools/regex';
+import { MIKROTIK_RULES } from '@/lib/tools/mikrotik';
 
 const BASE = 'https://devnettools.com';
 
@@ -14,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${BASE}/uuid-generator`, lastModified: new Date(), priority: 0.9, changeFrequency: 'monthly' as const },
         { url: `${BASE}/subnet-calculator`, lastModified: new Date(), priority: 0.9, changeFrequency: 'monthly' as const },
         { url: `${BASE}/ipv6-visualizer`, lastModified: new Date(), priority: 0.8, changeFrequency: 'monthly' as const },
-        { url: `${BASE}/mikrotik-firewall`, lastModified: new Date(), priority: 0.8, changeFrequency: 'monthly' as const },
+        { url: `${BASE}/mikrotik-firewall`, lastModified: new Date(), priority: 0.9, changeFrequency: 'monthly' as const },
         { url: `${BASE}/cron-guide`, lastModified: new Date(), priority: 0.85, changeFrequency: 'monthly' as const },
         { url: `${BASE}/regex-guide`, lastModified: new Date(), priority: 0.85, changeFrequency: 'monthly' as const },
         { url: `${BASE}/subnet-guide`, lastModified: new Date(), priority: 0.85, changeFrequency: 'monthly' as const },
@@ -36,5 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: 'yearly' as const,
     }));
 
-    return [...staticPages, ...cronPages, ...regexPages];
+    const mikrotikPages = MIKROTIK_RULES.map((r) => ({
+        url: `${BASE}/mikrotik-firewall/${r.slug}`,
+        lastModified: new Date(),
+        priority: 0.75,
+        changeFrequency: 'yearly' as const,
+    }));
+
+    return [...staticPages, ...cronPages, ...regexPages, ...mikrotikPages];
 }
